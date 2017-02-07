@@ -1,0 +1,4 @@
+applications:
+- name: tjun-nodejs-slackbot-sample
+  no-route: true
+  
