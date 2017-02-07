@@ -11,7 +11,7 @@ var watson = require('watson-developer-cloud');
 var language_translator;
 if (process.env.VCAP_SERVICES) {
   var vcapServices = JSON.parse(process.env.VCAP_SERVICES);
-  if (vcapServices.language_translator[0].credentials) {
+  if (vcapServices.language_translator && vcapServices.language_translator[0].credentials) {
     language_translator = watson.language_translator({
       username: vcapServices.language_translator[0].credentials.username,
       password: vcapServices.language_translator[0].credentials.password,
