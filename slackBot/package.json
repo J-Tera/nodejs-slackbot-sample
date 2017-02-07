@@ -13,7 +13,8 @@
   "dependencies": {
     "botkit": "*",
     "watson-developer-cloud": "*",
-    "prettyjson":"*"
+    "prettyjson":"*",
+    "rsvp":"*"
   },
   "engines": {
     "node": "7.x"
