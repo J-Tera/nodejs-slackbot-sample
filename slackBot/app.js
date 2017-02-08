@@ -69,6 +69,30 @@ controller.hears(["^[lL]ist all","^[lL]istall"],["direct_message","direct_mentio
     bot.reply(message, res);
   });
 });
+
+controller.hears(["^[sS]how"],["direct_message","direct_mention","mention","ambient"],function(bot,message) {
+  var matches  = message.text.match(/^[sS]how (.*)/i);
+  if(matches !== null && matches.length >= 2) {
+    var id = matches[1];
+    db.get(id)
+    .then(function(doc) {
+      if(doc === null) {
+        bot.reply(message, "Not found");
+      } else {
+        var res = {
+            attachments:[]
+        };
+        var ret = {};
+        ret.text = utils.prettyjson(doc);
+        ret.color ="good"
+        res.attachments.push(ret);
+        bot.reply(message, res);
+      }
+    });
+} else {
+  bot.reply(message, "Please use like 'show $key'");
+}
+});
  
 controller.hears(["^translate*","^Translate*"],["direct_message","direct_mention","mention","ambient"],function(bot,message) {
   var matches  = message.text.match(/^[tT]ranslate (.*)/i);
@@ -85,7 +109,7 @@ controller.hears(["^translate*","^Translate*"],["direct_message","direct_mention
       console.log(translation);
       console.log(translation.translations[0].translation);
     }
-    var translated = "In French "+translation.translations[0].translation;
+    var translated = "In Japanese "+translation.translations[0].translation;
     bot.reply(message, translated);
   });
 });
