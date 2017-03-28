@@ -6,7 +6,7 @@ var bot = controller.spawn({
 });
 
 var db = require('./dbutils');
- 
+
 var watson = require('watson-developer-cloud');
 var language_translator;
 if (process.env.VCAP_SERVICES) {
@@ -18,7 +18,7 @@ if (process.env.VCAP_SERVICES) {
       url: vcapServices.language_translator[0].credentials.url,
       version : 'v2'
     });
-    
+
   }
 }
 bot.startRTM(function(err,bot,payload) {
@@ -40,16 +40,18 @@ controller.hears(["^Hello","^hi$"],["direct_message","direct_mention","mention",
 //  db.save(doc)
 //  .then(bot.reply(message, "done"));
 //});
-//controller.hears(["^[dD]elete*"],["direct_message","direct_mention","mention","ambient"],function(bot,message) {
-//  var matches  = message.text.match(/^[dD]elete (.*)/i);
-//  var sentence = matches[1];
-//  db.get(sentence)
-//  .then(function(doc){
-//    doc._deleted = true;
-//    db.save(doc);
-//  })
-//  .then(bot.reply(message, "done"));
-//});
+controller.hears(["^[dD]elete*"],["direct_message","direct_mention","mention","ambient"],function(bot,message) {
+  var matches  = message.text.match(/^[dD]elete (.*)/i);
+  if(matches !== null && matches.length >= 2) {
+	  var id = matches[1];
+	  db.get(id)
+	  .then(function(doc){
+	    doc._deleted = true;
+	    db.save(doc);
+	  })
+	  .then(bot.reply(message, "done"));
+  }
+});
 controller.hears(["^[lL]ist all","^[lL]istall"],["direct_message","direct_mention","mention","ambient"],function(bot,message) {
   db.allDocs()
   .then(function(docs) {
@@ -93,7 +95,7 @@ controller.hears(["^[sS]how"],["direct_message","direct_mention","mention","ambi
   bot.reply(message, "Please use like 'show $key'");
 }
 });
- 
+
 controller.hears(["^translate*","^Translate*"],["direct_message","direct_mention","mention","ambient"],function(bot,message) {
   var matches  = message.text.match(/^[tT]ranslate (.*)/i);
   var sentence = matches[1];
