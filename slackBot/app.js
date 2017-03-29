@@ -2,7 +2,7 @@ var utils = require('./utils');
 var Botkit = require('botkit');
 var controller = Botkit.slackbot();
 var bot = controller.spawn({
-  token: process.env.slack_token || "xoxb-93771157380-QISXBuTapafKyzo57rRsiUUH"
+  token: process.env.slack_token
 });
 
 var db = require('./dbutils');
