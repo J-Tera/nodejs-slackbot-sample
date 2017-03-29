@@ -99,7 +99,7 @@ controller.hears(["^[sS]how"],["direct_message","direct_mention","mention","ambi
 
 controller.hears(["^素数"],["direct_message","direct_mention","mention","ambient"],function(bot,message) {
 	console.log("Entered to 素数");
-	  var matches  = message.text.match(/^素数(.*)個/i);
+	  var matches  = message.text.match(/^素数([0-9]*)個/i);
 	  if(matches !== null && matches.length >= 2) {
 	    var n = matches[1];
 	    var res = require('./utils/prime.js').prime(n);
