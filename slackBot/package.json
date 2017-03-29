@@ -9,15 +9,16 @@
   },
   "author": "",
   "license": "ISC",
-  
+
   "dependencies": {
     "botkit": "*",
     "watson-developer-cloud": "*",
     "prettyjson":"*",
-    "rsvp":"*"
+    "rsvp":"*",
+    "lazy.js": "^0.5.x"
   },
   "engines": {
     "node": "7.x"
   }
-  
+
 }
