@@ -98,21 +98,39 @@ controller.hears(["^[sS]how"],["direct_message","direct_mention","mention","ambi
 
 
 controller.hears(["^素数"],["direct_message","direct_mention","mention","ambient"],function(bot,message) {
-	console.log("Entered to 素数");
 	  var matches  = message.text.match(/^素数([0-9]*)個/i);
 	  if(matches !== null && matches.length >= 2) {
 	    var n = matches[1];
 	    var res = require('./utils/prime.js').prime(n);
-	    console.log("N=",n);
-	    console.log("Res=",res)
 	    bot.reply(message, res.toString());
 	  } else {
 		  bot.reply(message, "「素数xx個」のように入力してください。");
 	  }
 });
 
+controller.hears(["^素因数分解"],["direct_message","direct_mention","mention","ambient"],function(bot,message) {
+	  var matches  = message.text.match(/^素因数分解([0-9]*)/i);
+	  if(matches !== null && matches.length >= 2) {
+	    var n = matches[1];
+	    var res = require('./utils/prime.js').factor(n);
+	    bot.reply(message, res.toString());
+	  } else {
+		  bot.reply(message, "「素因数分解xx」のように入力してください。");
+	  }
+});
 
+controller.hears(["^通貨リスト"],["direct_message","direct_mention","mention","ambient"],function(bot,message) {
+	    require('./utils/rate.js').currencyList().then( rates => {bot.reply(message, rates.toString());} );
+});
+controller.hears(["^レート","^[Rr]ate"],["direct_message","direct_mention","mention","ambient"],function(bot,message) {
+	  var matches  = message.text.match(/^(レート|[rR]ate) ([A-Z][A-Z][A-Z][A-Z][A-Z][A-Z])/i);
+	  if(matches !== null && matches.length >= 3) {
+	    require('./utils/rate.js').rate(matches[2]).then(rate => {bot.reply(message, rate);})
 
+	  } else {
+		  bot.reply(message, "「レート XXXYYY」のように入力してください。XXX:Base,YYY:To");
+	  }
+});
 
 controller.hears(["^translate*","^Translate*"],["direct_message","direct_mention","mention","ambient"],function(bot,message) {
   var matches  = message.text.match(/^[tT]ranslate (.*)/i);
