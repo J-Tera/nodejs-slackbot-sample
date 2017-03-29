@@ -96,6 +96,18 @@ controller.hears(["^[sS]how"],["direct_message","direct_mention","mention","ambi
 }
 });
 
+
+controller.hears(["^素数"],["direct_message","direct_mention","mention","ambient"],function(bot,message) {
+	  var matches  = message.text.match(/^素数(.*)個/i);
+	  if(matches !== null && matches.length >= 2) {
+	    var n = matches[1];
+	    bot.reply(message, require('./utils/prime.js').prime(n));
+	  }
+});
+
+
+
+
 controller.hears(["^translate*","^Translate*"],["direct_message","direct_mention","mention","ambient"],function(bot,message) {
   var matches  = message.text.match(/^[tT]ranslate (.*)/i);
   var sentence = matches[1];
