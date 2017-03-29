@@ -2,7 +2,7 @@ var utils = require('./utils');
 var Botkit = require('botkit');
 var controller = Botkit.slackbot();
 var bot = controller.spawn({
-  token: process.env.slack_token
+  token: process.env.slack_token || "xoxb-93771157380-QISXBuTapafKyzo57rRsiUUH"
 });
 
 var db = require('./dbutils');
@@ -98,10 +98,16 @@ controller.hears(["^[sS]how"],["direct_message","direct_mention","mention","ambi
 
 
 controller.hears(["^素数"],["direct_message","direct_mention","mention","ambient"],function(bot,message) {
+	console.log("Entered to 素数");
 	  var matches  = message.text.match(/^素数(.*)個/i);
 	  if(matches !== null && matches.length >= 2) {
 	    var n = matches[1];
-	    bot.reply(message, require('./utils/prime.js').prime(n));
+	    var res = require('./utils/prime.js').prime(n);
+	    console.log("N=",n);
+	    console.log("Res=",res)
+	    bot.reply(message, res.toString());
+	  } else {
+		  bot.reply(message, "「素数xx個」のように入力してください。");
 	  }
 });
 
